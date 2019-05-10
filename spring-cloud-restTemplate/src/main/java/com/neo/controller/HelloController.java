@@ -1,5 +1,6 @@
 package com.neo.controller;
 
+import com.neo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
@@ -17,6 +18,8 @@ public class HelloController {
     private RestTemplate restTemplate;
     @Autowired
     private LoadBalancerClient loadBalancerClient;
+    @Autowired
+    private UserService userService;
 
     //RestTemplate的get请求
     @GetMapping("/ribbon-consumer")
@@ -34,7 +37,10 @@ public class HelloController {
         System.out.println(serviceInstance.getServiceId()+":"+serviceInstance.getHost()+":"+serviceInstance.getPort());
     }
 
-
+    @GetMapping("/hystrix-consumer")
+    public String getHystrixName(){
+       return userService.getUserById();
+    }
 
 
 
